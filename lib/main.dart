@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:template/constants/supported_languages.dart';
-import 'package:template/presentation/mobile/pages/home/home_page.dart';
+
+import 'src/utils/constants/supported_languages.dart';
+import 'src/config/router/app_router.dart';
+import 'src/config/themes/app_theme.dart';
 
 final langProvider = StateProvider((ref) => Language.initialLocale);
 
@@ -28,12 +30,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: const HomePage(),
+      theme: AppTheme.dark,
+      routerConfig: appRouter,
     );
   }
 }

@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:template/constants/endpoints.dart';
-import 'package:template/main.dart';
+
+import '../../../main.dart';
+import 'endpoints.dart';
 
 final dioProvider = Provider(
   (ref) => Dio(
