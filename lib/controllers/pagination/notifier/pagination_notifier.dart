@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:template/controllers/pagination/state/pagination_state.dart';
+
+import '../state/pagination_state.dart';
 
 class PaginationNotifier<T> extends StateNotifier<PaginationState<T>> {
   PaginationNotifier({

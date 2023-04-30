@@ -1,11 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../utils/constants/dio_provider.dart';
-import '../../utils/constants/endpoints.dart';
-import '../../utils/constants/exceptions.dart';
-import '../../domain/models/content_model/content_model.dart';
+import '../../domain/models/news_model/news_model.dart';
 import '../../domain/repositories/content_repository.dart';
+import '../datasources/remote/content_data_source_impl.dart';
 
 class ContentRepositoryImpl implements ContentRepository {
   final Ref ref;
@@ -13,13 +10,10 @@ class ContentRepositoryImpl implements ContentRepository {
   const ContentRepositoryImpl(this.ref);
 
   @override
-  Future<ContentModel> getContent() async {
-    try {
-      final response = await ref.read(dioProvider).get(Endpoints.content);
-
-      return ContentModel.fromJson(response.data);
-    } on DioError catch (error) {
-      throw DataException.fromDioError(error);
-    }
+  Future<List<NewsModel>> getAppleNews() async {
+    return await ref.read(newsDataSourceProvider).getAppleNews();
   }
 }
+
+final contentRepositoryProvider =
+    Provider<ContentRepositoryImpl>((ref) => ContentRepositoryImpl(ref));
