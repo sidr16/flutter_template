@@ -16,4 +16,4 @@ class ContentRepositoryImpl implements ContentRepository {
 }
 
 final contentRepositoryProvider =
-    Provider<ContentRepositoryImpl>((ref) => ContentRepositoryImpl(ref));
+    Provider<ContentRepository>((ref) => ContentRepositoryImpl(ref));

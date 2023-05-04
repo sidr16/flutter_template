@@ -35,4 +35,4 @@ class NewsDataSourceImpl implements NewsDataSource {
 }
 
 final newsDataSourceProvider =
-    Provider<NewsDataSourceImpl>((ref) => NewsDataSourceImpl(ref));
+    Provider<NewsDataSource>((ref) => NewsDataSourceImpl(ref));
