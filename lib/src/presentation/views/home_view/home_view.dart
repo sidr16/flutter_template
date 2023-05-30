@@ -16,7 +16,6 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
         flexibleSpace: ClipRRect(
           borderRadius: const BorderRadius.only(
@@ -60,17 +59,9 @@ class HomeView extends StatelessWidget {
 
   Widget _buildNewsList(BuildContext context,
       {required List<NewsModel> newsList}) {
-    var appBarHeight = AppBar().preferredSize.height;
-    var statusBarHeight = MediaQuery.of(context).viewPadding.top;
-
     return ListView.builder(
       itemCount: newsList.length,
-      padding: EdgeInsets.only(
-        left: 20,
-        right: 20,
-        top: appBarHeight + statusBarHeight,
-        bottom: 20,
-      ),
+      padding: const EdgeInsets.all(20),
       itemBuilder: (context, index) {
         return NewsCard(news: newsList[index]);
       },
