@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -17,13 +15,13 @@ class NewsDataSourceImpl implements NewsDataSource {
   @override
   Future<List<NewsModel>> getAppleNews() async {
     try {
-      final response = await ref.read(dioProvider).get(Endpoints.everything, 
-        queryParameters: {
-          'q': 'apple',
-          'sortBy': 'popularity',
-          'apiKey': Endpoints.apiKey,
-        }
-      );
+      final response = await ref
+          .read(dioProvider)
+          .get(Endpoints.everything, queryParameters: {
+        'q': 'apple',
+        'sortBy': 'popularity',
+        'apiKey': Endpoints.apiKey,
+      });
 
       return (response.data['articles'] as List)
           .map((news) => NewsModel.fromJson(news))

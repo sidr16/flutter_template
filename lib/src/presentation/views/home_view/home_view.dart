@@ -1,10 +1,12 @@
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../domain/models/news_model/news_model.dart';
+import '../../../utils/formatter.dart';
 import '../../providers/news_provider.dart';
 
 class HomeView extends ConsumerWidget {
@@ -20,7 +22,7 @@ class HomeView extends ConsumerWidget {
         toolbarHeight: 60,
         flexibleSpace: ClipRRect(
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+            filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
             child: Container(
               color: Colors.transparent,
             ),
@@ -56,7 +58,12 @@ class HomeView extends ConsumerWidget {
       {required List<NewsModel> newsList}) {
     return ListView.builder(
       itemCount: newsList.length,
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.only(
+        left: 20,
+        right: 20,
+        top: 120,
+        bottom: 20,
+      ),
       itemBuilder: (context, index) {
         return _buildNewsCard(
           context,
@@ -100,7 +107,12 @@ class HomeView extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(news.author),
-              Text(news.publishedAt),
+              Text(
+                TimeFormatter.handleData(
+                  news.publishedAt,
+                  DateFormat('hh:mm, d.MM.y'),
+                ),
+              ),
             ],
           ),
           const SizedBox(
@@ -109,10 +121,9 @@ class HomeView extends ConsumerWidget {
           Text(
             news.title,
             style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: Colors.blueAccent
-            ),
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: Colors.blueAccent),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),

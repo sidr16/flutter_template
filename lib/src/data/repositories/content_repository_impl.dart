@@ -14,6 +14,3 @@ class ContentRepositoryImpl implements ContentRepository {
     return await ref.read(newsDataSourceProvider).getAppleNews();
   }
 }
-
-final contentRepositoryProvider =
-    Provider<ContentRepository>((ref) => ContentRepositoryImpl(ref));
