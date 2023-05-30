@@ -10,13 +10,11 @@ import '../../providers/news_provider.dart';
 import '../../widgets/loader_widget.dart';
 import '../../widgets/news_card.dart';
 
-class HomeView extends ConsumerWidget {
+class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final appleNewsProviderState = ref.read(appleNewsProvider);
-
+  Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -38,18 +36,24 @@ class HomeView extends ConsumerWidget {
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
-      body: Container(
-        child: appleNewsProviderState.when(
-          data: (data) {
-            return _buildNewsList(context, newsList: data);
-          },
-          error: (error, stackTrace) {
-            return ErrorWidget(error);
-          },
-          loading: () => const Center(
-            child: LoaderWidget(),
-          ),
-        ),
+      body: Consumer(
+        builder: (context, ref, child) {
+          final appleNewsProviderState = ref.watch(appleNewsProvider);
+
+          return Container(
+            child: appleNewsProviderState.when(
+              data: (data) {
+                return _buildNewsList(context, newsList: data);
+              },
+              error: (error, stackTrace) {
+                return ErrorWidget(error);
+              },
+              loading: () => const Center(
+                child: LoaderWidget(),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
