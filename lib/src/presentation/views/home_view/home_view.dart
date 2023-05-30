@@ -1,14 +1,13 @@
-import 'dart:ui';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../generated/locale_keys.g.dart';
+import '../../../config/themes/app_colors.dart';
 import '../../../config/themes/app_styles.dart';
 import '../../../domain/models/news_model/news_model.dart';
-import '../../../utils/constants/app_colors.dart';
 import '../../providers/news_provider.dart';
+import '../../widgets/loader_widget.dart';
 import '../../widgets/news_card.dart';
 
 class HomeView extends ConsumerWidget {
@@ -16,7 +15,7 @@ class HomeView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appleNewsProviderState = ref.watch(appleNewsProvider);
+    final appleNewsProviderState = ref.read(appleNewsProvider);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -48,7 +47,7 @@ class HomeView extends ConsumerWidget {
             return ErrorWidget(error);
           },
           loading: () => const Center(
-            child: CircularProgressIndicator(),
+            child: LoaderWidget(),
           ),
         ),
       ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/constants/app_colors.dart';
+import 'app_colors.dart';
 
 class AppStyles {
   static const TextStyle s24w500 = TextStyle(

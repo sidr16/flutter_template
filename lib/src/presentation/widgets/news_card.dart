@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../config/themes/app_colors.dart';
 import '../../config/themes/app_styles.dart';
 import '../../domain/models/news_model/news_model.dart';
-import '../../utils/constants/app_colors.dart';
 import '../../utils/formatter.dart';
 
 class NewsCard extends StatelessWidget {
