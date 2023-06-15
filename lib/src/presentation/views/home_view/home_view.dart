@@ -1,53 +1,58 @@
-import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../generated/locale_keys.g.dart';
+import '../../../config/themes/app_colors.dart';
+import '../../../config/themes/app_styles.dart';
 import '../../../domain/models/news_model/news_model.dart';
 import '../../providers/news_provider.dart';
+import '../../widgets/loader_widget.dart';
+import '../../widgets/news_card.dart';
 
-class HomeView extends ConsumerWidget {
+class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final appleNewsProviderState = ref.watch(appleNewsProvider);
-
+  Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        toolbarHeight: 60,
         flexibleSpace: ClipRRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-            child: Container(
-              color: Colors.transparent,
-            ),
+          borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+          child: Container(
+            color: AppColors.blue,
           ),
         ),
-        title: const Text(
-          'Apple news',
-          style: TextStyle(
-            color: Colors.blue,
-            fontSize: 24,
+        title: Text(
+          LocaleKeys.title.tr(),
+          style: AppStyles.s24w500.copyWith(
+            color: AppColors.white,
           ),
         ),
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
-      body: Container(
-        child: appleNewsProviderState.when(
-          data: (data) {
-            return _buildNewsList(context, newsList: data);
-          },
-          error: (error, stackTrace) {
-            return ErrorWidget(error);
-          },
-          loading: () => const Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
+      body: Consumer(
+        builder: (context, ref, child) {
+          final appleNewsProviderState = ref.watch(appleNewsProvider);
+
+          return Container(
+            child: appleNewsProviderState.when(
+              data: (data) {
+                return _buildNewsList(context, newsList: data);
+              },
+              error: (error, stackTrace) {
+                return ErrorWidget(error);
+              },
+              loading: () => const Center(
+                child: LoaderWidget(),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -58,79 +63,8 @@ class HomeView extends ConsumerWidget {
       itemCount: newsList.length,
       padding: const EdgeInsets.all(20),
       itemBuilder: (context, index) {
-        return _buildNewsCard(
-          context,
-          news: newsList[index],
-        );
+        return NewsCard(news: newsList[index]);
       },
-    );
-  }
-
-  Widget _buildNewsCard(BuildContext context, {required NewsModel news}) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.blueAccent.withOpacity(0.4),
-            blurRadius: 10,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
-      padding: const EdgeInsets.all(15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: CachedNetworkImage(
-              imageUrl: news.urlToImage,
-              width: double.infinity,
-              height: 200 * (1 / 375 * MediaQuery.of(context).size.width),
-              fit: BoxFit.cover,
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(news.author),
-              Text(news.publishedAt),
-            ],
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Text(
-            news.title,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: Colors.blueAccent
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            news.content,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: Colors.black54,
-            ),
-            maxLines: 5,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
     );
   }
 }
