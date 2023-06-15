@@ -20,7 +20,7 @@ class NewsDataSourceImpl implements NewsDataSource {
       final response = await ref.read(dioProvider).get(Endpoints.everything, 
         queryParameters: {
           'q': 'apple',
-          'sortBy': 'popularity',
+          'sortBy': 'newest',
           'apiKey': Endpoints.apiKey,
         }
       );
